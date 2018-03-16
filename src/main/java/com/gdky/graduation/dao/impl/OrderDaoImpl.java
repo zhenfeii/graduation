@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import javax.annotation.Resource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +22,9 @@ import java.util.Map;
  */
 @Repository
 public class OrderDaoImpl implements OrderDao {
+    //设置日期格式
+    final static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
     @Resource
     private JdbcTemplate jdbcTemplate;
 
@@ -141,10 +145,39 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public List<Map<String, Object>> getOrderByOpenId(String opendId) {
-        String sql = "SELECT UUID uuid,CREATE_TIME createtime,TOTALPRICE totalprice FROM `order` WHERE OPENID=?";
-        List<Map<String, Object>> orderList = jdbcTemplate.queryForList(sql,new Object[]{opendId});
+        List<Map<String, Object>> orderList = new ArrayList<>();
+        String sql = "SELECT UUID uuid,SELLERID sellerid,CREATE_TIME createtime,TOTALPRICE totalprice FROM `order` WHERE OPENID=?";
+        jdbcTemplate.query(sql, new Object[]{opendId}, new RowCallbackHandler() {
+            @Override
+            public void processRow(ResultSet rs) throws SQLException {
+
+                //自封装数据集
+                Map<String,Object> map = new HashMap<>();
+                map.put("uuid",rs.getString("uuid"));
+                map.put("createtime",df.format(rs.getTimestamp("createtime")));
+                map.put("totalprice",rs.getString("totalprice"));
+
+                Integer sellerId = rs.getInt("sellerid");
+                final String[] name = {null};
+                //根据sellerId 找出 商家名称
+                jdbcTemplate.query("SELECT name from seller WHERE id=?", new Object[]{sellerId}, new RowCallbackHandler() {
+                    @Override
+                    public void processRow(ResultSet rs) throws SQLException {
+                        name[0] = rs.getString("name");
+                    }
+                });
+                map.put("name",name[0]);
+                orderList.add(map);
+            }
+        });
         return orderList;
     }
+
+
+
+
+
+
 
     private String rebuildSqlByCondition(StringBuffer sql, Map<String, Object> params,List<Object> args) {
         //根据查询条件，变化sql
