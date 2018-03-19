@@ -10,4 +10,6 @@ public interface SellerDao {
     public List<Map<String, Object>> getSellerList();
 
     Map<String,Object> getSellerListById(Integer sellerId);
+
+    List<Map<String,Object>> getImgs();
 }

@@ -28,5 +28,10 @@ public class SellerServiceImpl implements SellerService {
         return sellerDao.getSellerListById(sellerId);
     }
 
+    @Override
+    public List<Map<String, Object>> getImgs() {
+        return sellerDao.getImgs();
+    }
+
 
 }

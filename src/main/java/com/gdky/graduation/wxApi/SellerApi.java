@@ -45,4 +45,13 @@ public class SellerApi {
         return Result.genSuccessResult(sellerList);
     }
 
+    /**
+     * 获取所有商家的图标
+     */
+    @GetMapping("/imgs")
+    public Result getImgs(){
+        List<Map<String,Object>> imgsList = sellerService.getImgs();
+        return Result.genSuccessResult(imgsList);
+    }
+
 }

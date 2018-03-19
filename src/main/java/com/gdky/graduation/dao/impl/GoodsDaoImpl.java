@@ -26,14 +26,14 @@ public class GoodsDaoImpl implements GoodsDao {
     public List<Map<String, Object>> getGoods(Integer sellerId) {
         List<Map<String, Object>> resultList = new ArrayList<>();
 
-        jdbcTemplate.query("select id,name,type from goods WHERE sellerId=?", new Object[]{sellerId},new RowCallbackHandler() {
+        jdbcTemplate.query("select * from goods WHERE sellerId=?", new Object[]{sellerId},new RowCallbackHandler() {
             @Override
             public void processRow(ResultSet rs) throws SQLException {
                 Map<String, Object> goodsMap = new HashMap<>();
                 goodsMap.put("name", rs.getString("name"));
                 goodsMap.put("type", rs.getString("type"));
 
-                String foodsListSql = "SELECT name,price,oldPrice,description,Count,sellCount,rating,info,icon,image FROM foods WHERE foods.goodId=? ";
+                String foodsListSql = "SELECT * FROM foods WHERE foods.goodId=? ";
                 List<Map<String, Object>> foodsList = jdbcTemplate.queryForList(foodsListSql, new Object[]{rs.getLong("id")});
                 goodsMap.put("foods",foodsList);
 

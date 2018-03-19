@@ -102,5 +102,10 @@ public class SellerDaoImpl implements SellerDao {
         return sellerMap;
     }
 
+    @Override
+    public List<Map<String, Object>> getImgs() {
+        return jdbcTemplate.queryForList("SELECT id,avatar FROM seller");
+    }
+
 
 }
