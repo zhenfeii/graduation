@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *  心知天气 api
  * Created by Administrator on 2018/3/15 0015.
  */
-@RequestMapping("/xinzhi")
+@RequestMapping("/thirdApi/xinzhi")
 public class WeatherApi {
 
     @GetMapping("/nowWeather")

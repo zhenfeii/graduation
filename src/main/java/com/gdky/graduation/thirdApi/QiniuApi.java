@@ -17,7 +17,7 @@ import java.util.Map;
 @RestController
 public class QiniuApi {
 
-    @PostMapping("/qiniu/img")
+    @PostMapping("/thirdApi/qiniu/img")
     public Result upImg(@RequestParam("file")MultipartFile multipartFile) throws IOException {
         byte[]  imgBytes = multipartFile.getBytes();
         //MultipartFile 转 字节数组

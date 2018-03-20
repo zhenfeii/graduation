@@ -55,11 +55,18 @@ public class Result {
                 .setData(data);
     }
 
+    public static Result genFailResult(int code,String message) {
+        return new Result()
+                .setCode(code)
+                .setMessage(message);
+    }
+
     public static Result genFailResult(String message) {
         return new Result()
                 .setCode(ResultCode.FAIL)
                 .setMessage(message);
     }
+
     public static Result genServiceFailResult(String message) {
         return new Result()
                 .setCode(ResultCode.INTERNAL_SERVER_ERROR)
