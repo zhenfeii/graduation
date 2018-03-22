@@ -2,7 +2,7 @@ package com.gdky.graduation.security;
 
 import com.gdky.graduation.Config.Constants;
 import com.gdky.graduation.entity.CustomUserDetails;
-import com.gdky.graduation.pcService.CustomUserService;
+import com.gdky.graduation.pc.pcService.CustomUserService;
 import com.gdky.graduation.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
