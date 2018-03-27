@@ -40,12 +40,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/wx/api/**").permitAll()
 
                 // /thirdApi 允许匿名访问
-                .antMatchers("/thirdApi/api/**").permitAll()
+                .antMatchers("/thirdApi/**").permitAll()
 
                 //pc端api需要验证
                 .antMatchers("/pc/api/**").authenticated().and();
 
     }
-
 
 }

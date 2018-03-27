@@ -30,7 +30,6 @@ public class Openid {
         simpleClientHttpRequestFactory.setConnectTimeout(1000);
         simpleClientHttpRequestFactory.setReadTimeout(1000);
         RestTemplate restTemplate = new RestTemplate(simpleClientHttpRequestFactory);
-
         //把结果直接装在一个字符串
         String result = restTemplate.getForObject(url.toString(),String.class);
 
