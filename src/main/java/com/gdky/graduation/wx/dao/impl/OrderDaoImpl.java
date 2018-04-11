@@ -173,10 +173,12 @@ public class OrderDaoImpl implements OrderDao {
         return orderList;
     }
 
-
-
-
-
+    @Override
+    public void deleteOrderByUuid(Map<String, Object> map) {
+        String uuid = map.get("uuid").toString();
+        String sql = "DELETE FROM `order` WHERE UUID=?";
+        jdbcTemplate.update(sql,new Object[]{uuid});
+    }
 
 
     private String rebuildSqlByCondition(StringBuffer sql, Map<String, Object> params,List<Object> args) {

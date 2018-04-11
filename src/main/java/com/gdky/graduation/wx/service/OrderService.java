@@ -20,4 +20,6 @@ public interface OrderService {
     List<Map<String,Object>> getOrderByCondition(Map<String, Object> params);
 
     List<Map<String,Object>> getOrderByopenId(String opendId);
+
+    void deleteOrderByUuid(Map<String, Object> map);
 }

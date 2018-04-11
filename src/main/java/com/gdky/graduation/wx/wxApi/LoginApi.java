@@ -12,7 +12,7 @@ import java.util.Map;
 
 /**
  * 微信登录
- * ? 把openId 返回给前台
+ * 把openId 返回给前台
  * Created by Administrator on 2018/3/12 0012.
  */
 @RestController

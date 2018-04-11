@@ -17,10 +17,10 @@ public class InfoApi {
     @RequestMapping("")
     public Result info(){
         Map<String,Object> map = new HashMap<>();
-        map.put("Version","1.5.10.RELEASE");
-        map.put("api function","2018届黄振飞毕业设计后台接口");
-        map.put("后台框架","spring boot");
-        map.put("dao技术", "JdbcTemplate");
+        map.put("version","1.5.10.RELEASE");
+        map.put("apiFunction","2018届黄振飞毕业设计后台接口");
+        map.put("framework","Spring Boot");
+        map.put("daoLayerTechnology", "JdbcTemplate模板");
 
         return Result.genSuccessResult(map);
     }

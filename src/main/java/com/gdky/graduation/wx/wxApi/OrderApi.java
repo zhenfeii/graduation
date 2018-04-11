@@ -36,4 +36,10 @@ public class OrderApi {
         List<Map<String,Object>> orderList =  orderService.getOrderByopenId(openId);
         return Result.genSuccessResult(orderList);
     }
+
+    @DeleteMapping("")
+    public Result deleteOrderByUuid(@RequestBody Map<String,Object> map){
+        orderService.deleteOrderByUuid(map);
+        return Result.genSuccessResult();
+    }
 }

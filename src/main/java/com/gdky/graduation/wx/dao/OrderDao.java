@@ -20,4 +20,6 @@ public interface OrderDao {
     List<Map<String,Object>> getOrderByCondition(Map<String, Object> params);
 
     List<Map<String,Object>> getOrderByOpenId(String opendId);
+
+    void deleteOrderByUuid(Map<String, Object> map);
 }

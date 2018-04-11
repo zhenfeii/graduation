@@ -1,12 +1,9 @@
-package com.gdky.graduation.entity;
-
-import java.io.Serializable;
+package com.gdky.restful.entity;
 
 /**
- * Serializable: 序列化接口，不知道具体用途
- * Created by Administrator on 2018/3/20 0020.
+ * Created by Administrator on 2018/4/8 0008.
  */
-public class AuthRequest implements Serializable{
+public class AuthRequest {
     private String username;
     private String password;
 

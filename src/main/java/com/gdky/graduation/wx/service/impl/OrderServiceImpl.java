@@ -56,4 +56,9 @@ public class OrderServiceImpl implements OrderService {
     public List<Map<String, Object>> getOrderByopenId(String opendId) {
         return orderDao.getOrderByOpenId(opendId);
     }
+
+    @Override
+    public void deleteOrderByUuid(Map<String, Object> map) {
+        orderDao.deleteOrderByUuid(map);
+    }
 }
