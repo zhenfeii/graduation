@@ -28,7 +28,7 @@ public class CustomUserDetails extends User implements UserDetails {
 
     @Override
     public String getPassword() {
-        return super.getPwd();
+        return super.getPassword();
     }
 
     @Override

@@ -22,9 +22,9 @@ public class AuthDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public User getUser(String username) {
-        String sql = "select * from user WHERE LOGIN_NAME=?;";
-        List<User> users = jdbcTemplate.query(sql, new Object[]{username}, new UserRowMapper());
+    public User getUser(String loginName) {
+        String sql = "select * from seller_user WHERE LOGINNAME=?;";
+        List<User> users = jdbcTemplate.query(sql, new Object[]{loginName}, new UserRowMapper());
         if (users.size() > 0) {
             return users.get(0);
         } else {
@@ -33,26 +33,13 @@ public class AuthDao {
     }
 
     public List<Role> getRolesByUser(String username) {
-        String sql = "select c.* from user a,user_role b,role c where a.id_=b.user_id and b.role_id=c.id_ and a.login_name=?";
-        List<Role> roles = jdbcTemplate.query(sql, new Object[]{username}, new RoleRowMapper());
-        return roles;
+
+        return null;
     }
 
     public void insertDlxx(String random, CustomUserDetails userDetails) {
-        String sql = "update user set dlxx = ? where id_ = ? ";
-        jdbcTemplate.update(sql, new Object[]{random, userDetails.getId_()});
-    }
-
-    private class RoleRowMapper implements RowMapper<Role> {
-
-        @Override
-        public Role mapRow(ResultSet rs, int i) throws SQLException {
-            Role role = new Role();
-            role.setId_(rs.getInt("id_"));
-            role.setMs(rs.getString("ms"));
-            role.setRoleName(rs.getString("role_Name"));
-            return role;
-        }
+        String sql = "update seller_user set dlxx = ? where ID= ? ";
+        jdbcTemplate.update(sql, new Object[]{random, userDetails.getId()});
     }
 
     //第一次使用内部类
@@ -60,15 +47,14 @@ public class AuthDao {
         @Override
         public User mapRow(ResultSet rs, int i) throws SQLException {
             User user = new User();
-            user.setId_(rs.getInt("id_"));
-            user.setLoginName(rs.getString("login_Name"));
-            user.setDeptid(rs.getInt("deptid"));
-            user.setPhone(rs.getString("phone"));
-            user.setRzsj(rs.getDate("rzsj"));
-            user.setPwd(rs.getString("pwd"));
-            user.setUserName(rs.getString("user_Name"));
-            user.setPhoto(rs.getString("photo"));
-            user.setBirthday(rs.getDate("birthday"));
+            user.setId(rs.getInt("ID"));
+            user.setSeller_id(rs.getInt("SELLER_ID"));
+            user.setLoginName(rs.getString("LOGINNAME"));
+            user.setUserName(rs.getString("USERNAME"));
+            user.setPhone(rs.getString("PHONE"));
+            user.setPassword(rs.getString("PASSWORD"));
+            user.setPhoto(rs.getString("AVATAR"));
+            user.setDlxx(rs.getString("DLXX"));
             return user;
         }
     }

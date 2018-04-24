@@ -18,6 +18,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsUtils;
 
 
 @Configuration
@@ -47,34 +48,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(this.unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                //allow all static resources
-                .antMatchers("/").permitAll()
-                .antMatchers("/favicon.ico").permitAll()
-                .antMatchers("/**/*.html").permitAll()
-                .antMatchers("/**/*.css").permitAll()
-                .antMatchers("/**/*.js").permitAll()
 
 
-                .antMatchers("/auth/login").permitAll()
+                //对预请求放行，（一个坑，搞了好久！）
+                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+                .antMatchers("/pc/api/user/info").permitAll()
+                .antMatchers("/pc/api/**").authenticated()
 
-                .antMatchers("/api/hello").permitAll()
-
-                .antMatchers("/api/info").authenticated()
-
-                // 验证测试用api
-                .antMatchers(HttpMethod.GET, "/api/auth/**").authenticated()
-
-                //身份验证api允许匿名访问
-                .antMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
-
-                // authenticate REST api
-                .antMatchers("/api/**").authenticated()
-
-                //对外公开api允许匿名访问
-                .antMatchers("/pub/api/**").permitAll()
 
                 // 其余连接允许匿名访问
-                .anyRequest().permitAll().and()
+                .anyRequest().permitAll()
+
+                .and()
+
                 // Custom JWT based authentication
                 .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
     }

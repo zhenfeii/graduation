@@ -37,7 +37,9 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
         log.warn("获取用户");
         CustomUserDetails u = new CustomUserDetails(user);
-        u.setAuthorities(this.getAuthorities(username));
+        //暂时不理角色问题
+//        u.setAuthorities(this.getAuthorities(username));
+        u.setAuthorities(null);
         return u;
     }
 

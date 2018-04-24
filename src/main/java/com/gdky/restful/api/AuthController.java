@@ -56,7 +56,9 @@ public class AuthController {
         CustomUserDetails userDetails = (CustomUserDetails) this.userDetailsService.loadUserByUsername(authRequest.getUsername());
 
         String random = getRandomString(10);
+        authService.insertDlxx(random,userDetails);
         String token = this.tokenUtils.generateToken(userDetails, random);
+        System.out.println(token);
 
         AuthResponse authResponse = new AuthResponse(token);
         authResponse.setTokenHash(token);

@@ -27,8 +27,8 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
-        String authToken = httpRequest.getHeader("token");
-        String username = this.tokenUtils.getUsernameFromToken(authToken);
+        String token = httpRequest.getHeader("token");
+        String username = this.tokenUtils.getUsernameFromToken(token);
 
         //SecurityContextHolder.getContext().getAuthentication() 该方法是做什么？
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -37,7 +37,7 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
             CustomUserDetails userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(username);
 
             //验证token 是否有效
-            if (this.tokenUtils.validateToken(authToken, userDetails)) {
+            if (this.tokenUtils.validateToken(token, userDetails)) {
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));
                 SecurityContextHolder.getContext().setAuthentication(authentication);

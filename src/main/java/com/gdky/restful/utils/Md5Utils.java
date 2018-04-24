@@ -50,7 +50,7 @@ public class Md5Utils {
     }
 
     public static void main(String[] args) {
-        String result = Md5Utils.encodeMd5("666666");
+        String result = Md5Utils.encodeMd5("666");
         System.out.println(result);
     }
 

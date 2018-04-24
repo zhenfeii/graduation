@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +20,7 @@ import java.util.Map;
 public class TokenUtils {
 
     private static final Logger log = LoggerFactory.getLogger(TokenUtils.class);
+    private static final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     private String secret = "c2VjcmV0IGZvciBnZHpz";
 
@@ -123,14 +125,20 @@ public class TokenUtils {
     }
 
     private Date generateCurrentDate() {
-        return new Date(System.currentTimeMillis());
+        Long currentTime = System.currentTimeMillis();
+        Date currentDate = new Date(currentTime);
+        return currentDate;
     }
+
 
     private Date generateExpirationDate() {
-        return new Date(System.currentTimeMillis() + this.expiration * 30000);
+        //一天的有效期
+        return new Date(System.currentTimeMillis() + this.expiration * 1000);
     }
 
-//    验证token 是否过期
+    /**
+     * 验证token 是否过期
+     */
     private Boolean isTokenExpired(String token) {
         final Date expiration = this.getExpirationDateFromToken(token);
         return expiration.before(this.generateCurrentDate());
@@ -182,9 +190,12 @@ public class TokenUtils {
         final String dlxx = this.getDlxxFromToken(token);
 
         // 验证 用户、密码是否正确，token 是否过期
-        if(username.equals(user.getUsername()) && password.equals(user.getPassword()) && this.isTokenExpired(token)){
+        if (username.equals(user.getUsername())
+                && password.equals(user.getPassword())
+                && dlxx.equals(user.getDlxx())
+                && !this.isTokenExpired(token)) {
             return true;
-        }else {
+        } else {
             return false;
         }
 
@@ -192,8 +203,18 @@ public class TokenUtils {
 
     public static void main(String[] args) {
         TokenUtils tokenUtils = new TokenUtils();
-        String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwicGFzc3dvcmQiOiIxZTJiMDdiOGU1ZGMwZDg5YzQwMjdmYzVmZTdjYWFjMiIsImNyZWF0ZWQiOjE1MjMyODU5ODg3OTQsImRseHgiOiIxNzN0MmJuOTN2IiwiZXhwIjoxNTIxNTgzMDIxfQ.A5uXDgvGulfUYgPRLtsOy_T26WDiSDVXh4_HoRNpp3kAtQRdmSQyMRQt7WGEwbhdwWSRDSMO3Vt-VQDCFqo_Ag";
+        Map<String, Object> map = new HashMap<>();
+        map.put("sub", "user");
+        map.put("created", tokenUtils.generateCurrentDate());
+        map.put("password", "666666");
+        map.put("dlxx", "SB");
+        String token = tokenUtils.generateToken(map);
 
-        Boolean dlxx = tokenUtils.isTokenExpired(token);
+        //解析token
+        Map<String, Object> tokenMap = tokenUtils.getClaimsFromToken(token);
+
+        Boolean rs = !tokenUtils.isTokenExpired(token);
+
+
     }
 }
